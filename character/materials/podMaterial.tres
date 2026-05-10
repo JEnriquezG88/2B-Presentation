@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://44cygw40512c"]
+
+[ext_resource type="Texture2D" uid="uid://cky44wpy8te63" path="res://import/Pod_Ucupaint POD Color.png" id="1_g32r4"]
+
+[resource]
+shading_mode = 0
+albedo_texture = ExtResource("1_g32r4")

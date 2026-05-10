@@ -1,0 +1,9 @@
+FogVolume
+MeshInstance3D
+Node3D
+AudioStreamPlayer3D
+AnimationTree
+FollowNode
+AnimationPlayer
+GPUParticles3D
+Camera3D

@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ccqtbg1o44bm4"]
+
+[ext_resource type="Texture2D" uid="uid://du5m6623a88oi" path="res://import/2B_Mouth.png" id="1_cxdqh"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.8776157, 0.8776158, 0.8776157, 1)
+albedo_texture = ExtResource("1_cxdqh")
+texture_filter = 0

@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://ck6jlfrxsw238"]
+
+[ext_resource type="Shader" uid="uid://dt86e434pvw5p" path="res://character/materials/toon_shader.gdshader" id="1_sqm2n"]
+[ext_resource type="Texture2D" uid="uid://hionnmx3ses7" path="res://import/2B_Ucupaint paintcharacter Color.png" id="2_amspd"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_sqm2n")
+shader_parameter/albedo_texture = ExtResource("2_amspd")
+shader_parameter/light_color = Color(0.62152386, 0.6215239, 0.6215237, 1)
+shader_parameter/shadow_color = Color(0.24477637, 0.2447764, 0.24477637, 1)

@@ -1,0 +1,10 @@
+res://character/show_scene.tscn
+res://character/materials/toon_shader.gdshader
+res://character/code/animation_player.gd
+res://character/code/follow_obj.gd
+res://character/code/movement.gd
+res://code/round.gd
+res://character/Animations/Run.anim
+res://character/Animations/walk.anim
+res://import/2B_Ucupaint paintcharacter Color.png
+res://character/scene/2b.tscn

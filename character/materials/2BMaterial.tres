@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cx6t1shie0fkc"]
+
+[ext_resource type="Texture2D" uid="uid://hionnmx3ses7" path="res://import/2B_Ucupaint paintcharacter Color.png" id="1_qtbku"]
+
+[resource]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_qtbku")
+refraction_scale = 1.0
+texture_filter = 0
+stencil_flags = 2
+stencil_outline_thickness = 0.02

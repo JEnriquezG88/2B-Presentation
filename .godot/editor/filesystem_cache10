@@ -1,0 +1,46 @@
+63f7b34db8d8cdea90c76aacccf841ec
+::res://::1778382598
+qwantani_moon_noon_puresky_4k.exr::CompressedTexture2D::4666124535536596556::1765487375::1777582871::1::::<><><>0<>0<>0772b7c63c3953805400f919c9ff5466<>res://.godot/imported/qwantani_moon_noon_puresky_4k.exr-dc11dad22098ee8739bbeaf080f28008.bptc.ctex::
+README.md::TextFile::-1::1778382614::0::1::::<><><>0<>0<><>::
+::res://character/::1778383067
+show_scene.tscn::PackedScene::5923166186034976458::1778383066::0::1::::<><><>0<>0<><>::uid://dsyxjp0y6yd7i::::res://character/scene/2b.tscn<>uid://b7qknid3oyobs::::res://qwantani_moon_noon_puresky_4k.exr<>uid://wojrdgtb3veq::::res://code/round.gd<>uid://cpcp1sdsxxbjq::::res://character/code/follow_obj.gd<>uid://dsis5tckl7uib::::res://textures/texture_07.png<>uid://bux73u51m27kp::::res://textures/dust_particle.png<>uid://bkemqede5r1ik::::res://character/scene/pod.tscn<>uid://d0diajm06gioy::::res://character/scene/sword.tscn
+::res://character/Animations/::1778383239
+Custom.res::AnimationLibrary::3752619649882433932::1775529814::0::1::::<><><>0<>0<><>::uid://cfyav6j60cg1o::::res://character/Animations/Run.anim<>uid://b5wp7w4cib5pa::::res://character/Animations/walk.anim
+Run.anim::Animation::233494536644972683::1778383314::0::1::::<><><>0<>0<><>::
+walk.anim::Animation::1084216017293142945::1778383314::0::1::::<><><>0<>0<><>::
+::res://character/code/::1778382523
+animation_player.gd::GDScript::7502941501992373840::1778382506::0::1::::<>AnimationPlayer<><>0<>0<><>::
+follow_animation_tree.gd::GDScript::1597478872557403647::1775492513::0::1::::<>AnimationTree<><>0<>0<><>::
+follow_obj.gd::GDScript::5830760913902026350::1778382514::0::1::::FollowNode<>Node3D<><>0<>0<><>::
+movement.gd::GDScript::3172342722014183925::1778382523::0::1::::<>Node3D<><>0<>0<><>::
+::res://character/materials/::1778381911
+2BMaterial.tres::StandardMaterial3D::6452381491544641074::1775527223::0::1::::<><><>0<>0<><>::uid://hionnmx3ses7::::res://import/2B_Ucupaint paintcharacter Color.png
+2BShaderMaterial.tres::ShaderMaterial::5539291900758622517::1775527188::0::1::::<><><>0<>0<><>::uid://dt86e434pvw5p::::res://character/materials/toon_shader.gdshader<>uid://hionnmx3ses7::::res://import/2B_Ucupaint paintcharacter Color.png
+MagicMaterial.tres::StandardMaterial3D::3474882173725450779::1775527435::0::1::::<><><>0<>0<><>::uid://dd7mxgjxivw2u::::res://import/Sword_Magic.png
+mouth.tres::StandardMaterial3D::4947404863364697777::1775053980::0::1::::<><><>0<>0<><>::uid://du5m6623a88oi::::res://import/2B_Mouth.png
+podMaterial.tres::StandardMaterial3D::2095508063887966880::1775491466::0::1::::<><><>0<>0<><>::uid://cky44wpy8te63::::res://import/Pod_Ucupaint POD Color.png
+SwordMaterial.tres::StandardMaterial3D::2704953454103208212::1775500223::0::1::::<><><>0<>0<><>::uid://ckpt8p14gyx5w::::res://import/Sword_Sword Color.png
+toon_shader.gdshader::Shader::8562865483807473051::1778381911::0::1::::<><><>0<>0<><>::
+::res://character/scene/::1775529989
+2b.tscn::PackedScene::8473619693243280452::1775529989::0::1::::<><><>0<>0<><>::uid://cxcweuumon6f5::::res://import/2B.glb<>uid://blgyaype3i0vh::::res://character/code/movement.gd<>uid://ccqtbg1o44bm4::::res://character/materials/mouth.tres<>uid://de5ql5860y1su::::res://character/code/animation_player.gd<>uid://btp2dks8wq4ay::::res://character/Animations/Custom.res
+pod.tscn::PackedScene::3097324022655684010::1775500399::0::1::::<><><>0<>0<><>::uid://bo8kp6324apim::::res://import/Pod.glb<>uid://cpcp1sdsxxbjq::::res://character/code/follow_obj.gd<>uid://w03ijv5e1tt4::::res://character/code/follow_animation_tree.gd
+sword.tscn::PackedScene::8920662503659785684::1775527435::0::1::::<><><>0<>0<><>::uid://npgtti05exoa::::res://import/Sword.glb<>uid://w03ijv5e1tt4::::res://character/code/follow_animation_tree.gd<>uid://cpcp1sdsxxbjq::::res://character/code/follow_obj.gd
+::res://character/Sounds/::1775529649
+steps.wav::AudioStreamWAV::8431737140514528916::1763062378::1775529649::1::::<><><>0<>0<>6a33964acff35e57251d24be6faf0339<>res://.godot/imported/steps.wav-5aa683551b0ad8c819b5921f428286ab.sample::
+::res://code/::1778382530
+round.gd::GDScript::1573632827729441980::1778382530::0::1::::<>Node3D<><>0<>0<><>::
+::res://Icons/::1778382103
+icon.png::CompressedTexture2D::2561731494511843900::1778382096::1778382103::1::::<><><>0<>0<>94b659a20c57e3e202b62dae816bbc53<>res://.godot/imported/icon.png-0e7c0247650c64c468830ef1a3387b2c.ctex::
+::res://import/::1778383240
+2B.glb::PackedScene::6392657525513120268::1778383304::1778383315::1::::<><><>0<>0<>fda9702a8c68751a709415caef3877fd<>res://.godot/imported/2B.glb-88bff4335dc236ec045e0d3499c9d34b.scn::uid://cx6t1shie0fkc::::res://character/materials/2BMaterial.tres<>uid://ccqtbg1o44bm4::::res://character/materials/mouth.tres<>uid://dldvd1beek4j::::res://character/Animations/Run.anim<>uid://ppg45t5m1jor::::res://character/Animations/walk.anim
+2B_Details.png::CompressedTexture2D::2672193050172252052::1775006291::1775006348::1::::<><><>0<>0<>49913b3389c9fd78dd0a19fbdf5ac30f<>res://.godot/imported/2B_Details.png-245a25284126e9ed03fc80849f8de848.s3tc.ctex::
+2B_Mouth.png::CompressedTexture2D::8625755891193094704::1775053898::1775053898::1::::<><><>0<>0<>7f3ab78474a37b320a41e1f97fa23263<>res://.godot/imported/2B_Mouth.png-a7a0598b971510d9162a801133436b0f.bptc.ctex::
+2B_Ucupaint paintcharacter Color.png::CompressedTexture2D::508710883142548804::1778383313::1778383314::1::::<><><>0<>0<>fcc228288e63f8a68d0cbcf269a726b2<>res://.godot/imported/2B_Ucupaint paintcharacter Color.png-3ceb5f75bfef7f262ffc6200775ba500.bptc.ctex::
+Pod.glb::PackedScene::3437824590089671048::1775479926::1775480012::1::::<><><>0<>0<>76f95453de18b6ac3ce3d051f4dc2d68<>res://.godot/imported/Pod.glb-8b370f57b11d52dc517dbfe3a780f77a.scn::uid://44cygw40512c::::res://character/materials/podMaterial.tres
+Pod_Ucupaint POD Color.png::CompressedTexture2D::5526088630498501170::1775479960::1775479961::1::::<><><>0<>0<>411693f4aa642290ce0bec32d8f6d574<>res://.godot/imported/Pod_Ucupaint POD Color.png-a2c6020ef42d5de00ba6b8896afdfa68.s3tc.ctex::
+Sword.glb::PackedScene::943819877124357464::1775531129::1775531131::1::::<><><>0<>0<>e78bbcd92d4522b40e7f4fd63706acf9<>res://.godot/imported/Sword.glb-fe69052674162b32f3edf16cb9fd7292.scn::uid://beskgnsvwf6sm::::res://character/materials/SwordMaterial.tres<>uid://bpri2i1udvvwd::::res://character/materials/MagicMaterial.tres
+Sword_Magic.png::CompressedTexture2D::7436658677396221130::1775500193::1775500193::1::::<><><>0<>0<>8cff246fb17915548212c0754c30ee98<>res://.godot/imported/Sword_Magic.png-1feafc4543f86907e580c359e8ab7c49.s3tc.ctex::
+Sword_Sword Color.png::CompressedTexture2D::5506908853480630190::1775500193::1775500194::1::::<><><>0<>0<>da11633fe6b59be56087b9c912ad341d<>res://.godot/imported/Sword_Sword Color.png-40be7918464a6d9d34bde0c977f6ddeb.s3tc.ctex::
+::res://textures/::1775010806
+dust_particle.png::CompressedTexture2D::3839672288804578491::1775010792::1775010806::1::::<><><>0<>0<>66e095c5b6f96f63a060575814fa37f1<>res://.godot/imported/dust_particle.png-cf452158a11fcdcfd5f9a526a29a8b9a.s3tc.ctex::
+texture_07.png::CompressedTexture2D::8440323739786904145::1586304804::1775008064::1::::<><><>0<>0<>aa3ca738e9a4f2d93fb4fbdb3258f2d9<>res://.godot/imported/texture_07.png-543a2fda11ac59834d8159827dfa4adb.s3tc.ctex::

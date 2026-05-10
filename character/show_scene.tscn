@@ -1,0 +1,3503 @@
+[gd_scene format=3 uid="uid://cqnhxgbqmkadu"]
+
+[ext_resource type="PackedScene" uid="uid://dsyxjp0y6yd7i" path="res://character/scene/2b.tscn" id="1_j1ne1"]
+[ext_resource type="Texture2D" uid="uid://b7qknid3oyobs" path="res://qwantani_moon_noon_puresky_4k.exr" id="1_loe3w"]
+[ext_resource type="Script" uid="uid://wojrdgtb3veq" path="res://code/round.gd" id="2_8rpiq"]
+[ext_resource type="Script" uid="uid://cpcp1sdsxxbjq" path="res://character/code/follow_obj.gd" id="2_gkhmm"]
+[ext_resource type="Texture2D" uid="uid://dsis5tckl7uib" path="res://textures/texture_07.png" id="3_rxpf2"]
+[ext_resource type="Texture2D" uid="uid://bux73u51m27kp" path="res://textures/dust_particle.png" id="4_njems"]
+[ext_resource type="PackedScene" uid="uid://bkemqede5r1ik" path="res://character/scene/pod.tscn" id="5_04k4c"]
+[ext_resource type="PackedScene" uid="uid://d0diajm06gioy" path="res://character/scene/sword.tscn" id="7_nljv8"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ld7cy"]
+panorama = ExtResource("1_loe3w")
+
+[sub_resource type="Sky" id="Sky_kt5em"]
+sky_material = SubResource("PanoramaSkyMaterial_ld7cy")
+
+[sub_resource type="Environment" id="Environment_rxpf2"]
+background_mode = 1
+sky = SubResource("Sky_kt5em")
+ambient_light_source = 3
+reflected_light_source = 2
+ssao_enabled = true
+ssao_intensity = 3.0
+ssao_detail = 5.0
+ssao_sharpness = 1.0
+ssil_enabled = true
+sdfgi_use_occlusion = true
+sdfgi_y_scale = 2
+glow_enabled = true
+glow_intensity = 1.85
+fog_enabled = true
+fog_light_color = Color(0.14017183, 0.15623155, 0.18122098, 1)
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.005
+volumetric_fog_albedo = Color(0.16924527, 0.1692453, 0.16924527, 1)
+adjustment_enabled = true
+adjustment_contrast = 1.05
+adjustment_saturation = 2.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_njems"]
+size = Vector2(1000, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_04k4c"]
+albedo_color = Color(0.43529412, 0.6627451, 0.4392157, 1)
+albedo_texture = ExtResource("3_rxpf2")
+uv1_scale = Vector3(0.3, 0.3, 0.3)
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rxpf2"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.14509805)
+albedo_texture = ExtResource("4_njems")
+
+[sub_resource type="Curve" id="Curve_njems"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.14325069, 1), 0.0, 0.0, 0, 0, Vector2(0.84573007, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_04k4c"]
+curve = SubResource("Curve_njems")
+
+[sub_resource type="Curve" id="Curve_gkhmm"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.3415978, 0.07543099), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_nljv8"]
+curve = SubResource("Curve_gkhmm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rxpf2"]
+emission_shape_scale = Vector3(15, 10, 15)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+initial_velocity_min = 0.19999999
+initial_velocity_max = 0.5
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_nljv8")
+alpha_curve = SubResource("CurveTexture_04k4c")
+
+[sub_resource type="QuadMesh" id="QuadMesh_rxpf2"]
+
+[node name="Node3D" type="Node3D" unique_id=172407280]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=251840153]
+transform = Transform3D(0.8925307, 0.3905659, -0.22549336, 2.7805946e-08, 0.49999994, 0.86602545, 0.45098665, -0.77295434, 0.44626528, 0, 0, 0)
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_blur = 0.1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=206826215]
+environment = SubResource("Environment_rxpf2")
+
+[node name="2B" parent="." unique_id=1317082096 node_paths=PackedStringArray("camera") instance=ExtResource("1_j1ne1")]
+camera = NodePath("../FollowNode/CameraH/CameraV/Camera3D")
+
+[node name="FollowNode" type="Node3D" parent="." unique_id=649780014 node_paths=PackedStringArray("target")]
+script = ExtResource("2_gkhmm")
+target = NodePath("../2B")
+metadata/_custom_type_script = "uid://cpcp1sdsxxbjq"
+
+[node name="CameraH" type="Node3D" parent="FollowNode" unique_id=1369189569]
+transform = Transform3D(0.99862945, 0, 0.052335955, 0, 1, 0, -0.052335955, 0, 0.99862945, 0, 0, 0)
+script = ExtResource("2_8rpiq")
+rotation_velocity = 2.0
+
+[node name="CameraV" type="Node3D" parent="FollowNode/CameraH" unique_id=511381304]
+transform = Transform3D(1, 0, 0, 0, 0.99813473, 0.061048537, 0, -0.061048537, 0.99813473, 0, 2.779, 0)
+
+[node name="Camera3D" type="Camera3D" parent="FollowNode/CameraH/CameraV" unique_id=1277536815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.505)
+current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2137410048]
+mesh = SubResource("PlaneMesh_njems")
+surface_material_override/0 = SubResource("StandardMaterial3D_04k4c")
+
+[node name="Pod2" parent="." unique_id=237857185 node_paths=PackedStringArray("target") instance=ExtResource("5_04k4c")]
+transform = Transform3D(0.39999998, 0, 0, 0, 0.39999998, 0, 0, 0, 0.39999998, 2.61, 3.372, -2.955)
+target = NodePath("../2B")
+offset = Vector3(2.61, 3.372, -2.955)
+follow_velocity = 1.0
+rotation_velocity = 1.0
+relative_rotate = true
+
+[node name="Sword2" parent="." unique_id=754168644 node_paths=PackedStringArray("target") instance=ExtResource("7_nljv8")]
+transform = Transform3D(1.62, 0, 0, 0, 1.62, 0, 0, 0, 1.62, 0.1779334, 3.8083987, -1.839544)
+target = NodePath("../2B")
+offset = Vector3(0.178, 3.808, -1.84)
+follow_velocity = 100.0
+rotation_velocity = 100.0
+relative_rotate = true
+
+[node name="Particles" type="Node3D" parent="." unique_id=1044524131]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Particles" unique_id=322048571]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="Particles" unique_id=678931954]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D3" type="GPUParticles3D" parent="Particles" unique_id=261824735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D4" type="GPUParticles3D" parent="Particles" unique_id=57525180]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D5" type="GPUParticles3D" parent="Particles" unique_id=719839968]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D6" type="GPUParticles3D" parent="Particles" unique_id=1089193678]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D7" type="GPUParticles3D" parent="Particles" unique_id=193194991]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D8" type="GPUParticles3D" parent="Particles" unique_id=608331250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D9" type="GPUParticles3D" parent="Particles" unique_id=259864037]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D10" type="GPUParticles3D" parent="Particles" unique_id=731379742]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D11" type="GPUParticles3D" parent="Particles" unique_id=1097570537]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D12" type="GPUParticles3D" parent="Particles" unique_id=977579396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D13" type="GPUParticles3D" parent="Particles" unique_id=1418209847]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D14" type="GPUParticles3D" parent="Particles" unique_id=665359745]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D15" type="GPUParticles3D" parent="Particles" unique_id=682810737]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D16" type="GPUParticles3D" parent="Particles" unique_id=1500746596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D17" type="GPUParticles3D" parent="Particles" unique_id=694395757]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D18" type="GPUParticles3D" parent="Particles" unique_id=1897619329]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D19" type="GPUParticles3D" parent="Particles" unique_id=994380560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D20" type="GPUParticles3D" parent="Particles" unique_id=914781073]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D21" type="GPUParticles3D" parent="Particles" unique_id=1299374993]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D22" type="GPUParticles3D" parent="Particles" unique_id=238554341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D23" type="GPUParticles3D" parent="Particles" unique_id=1588318824]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D24" type="GPUParticles3D" parent="Particles" unique_id=1975233614]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D25" type="GPUParticles3D" parent="Particles" unique_id=1386320859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D26" type="GPUParticles3D" parent="Particles" unique_id=499721805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D27" type="GPUParticles3D" parent="Particles" unique_id=1009509560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D28" type="GPUParticles3D" parent="Particles" unique_id=675488572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D29" type="GPUParticles3D" parent="Particles" unique_id=577750332]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D30" type="GPUParticles3D" parent="Particles" unique_id=1307497164]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D31" type="GPUParticles3D" parent="Particles" unique_id=348469045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D32" type="GPUParticles3D" parent="Particles" unique_id=713359635]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D33" type="GPUParticles3D" parent="Particles" unique_id=423205765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D34" type="GPUParticles3D" parent="Particles" unique_id=2146507189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D35" type="GPUParticles3D" parent="Particles" unique_id=1390265708]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D36" type="GPUParticles3D" parent="Particles" unique_id=1392795029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D37" type="GPUParticles3D" parent="Particles" unique_id=1489703180]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D38" type="GPUParticles3D" parent="Particles" unique_id=1246616315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D39" type="GPUParticles3D" parent="Particles" unique_id=421424130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D40" type="GPUParticles3D" parent="Particles" unique_id=2142572740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D41" type="GPUParticles3D" parent="Particles" unique_id=520047998]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D42" type="GPUParticles3D" parent="Particles" unique_id=1940800905]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D43" type="GPUParticles3D" parent="Particles" unique_id=878187760]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D44" type="GPUParticles3D" parent="Particles" unique_id=604638311]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D45" type="GPUParticles3D" parent="Particles" unique_id=2084815959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D46" type="GPUParticles3D" parent="Particles" unique_id=818699780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D47" type="GPUParticles3D" parent="Particles" unique_id=2016104669]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D48" type="GPUParticles3D" parent="Particles" unique_id=1595353903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D49" type="GPUParticles3D" parent="Particles" unique_id=1236421556]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D50" type="GPUParticles3D" parent="Particles" unique_id=1459835966]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D51" type="GPUParticles3D" parent="Particles" unique_id=1527662552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D52" type="GPUParticles3D" parent="Particles" unique_id=1830271130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D53" type="GPUParticles3D" parent="Particles" unique_id=265897920]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D54" type="GPUParticles3D" parent="Particles" unique_id=1211036098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D55" type="GPUParticles3D" parent="Particles" unique_id=152735250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D56" type="GPUParticles3D" parent="Particles" unique_id=1088934440]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D57" type="GPUParticles3D" parent="Particles" unique_id=1168784442]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D58" type="GPUParticles3D" parent="Particles" unique_id=1575304062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D59" type="GPUParticles3D" parent="Particles" unique_id=138016608]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D60" type="GPUParticles3D" parent="Particles" unique_id=350597232]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D61" type="GPUParticles3D" parent="Particles" unique_id=1490124666]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D62" type="GPUParticles3D" parent="Particles" unique_id=711432021]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D63" type="GPUParticles3D" parent="Particles" unique_id=871787299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D64" type="GPUParticles3D" parent="Particles" unique_id=1166513421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D65" type="GPUParticles3D" parent="Particles" unique_id=1847524723]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D66" type="GPUParticles3D" parent="Particles" unique_id=748910711]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D67" type="GPUParticles3D" parent="Particles" unique_id=201469101]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D68" type="GPUParticles3D" parent="Particles" unique_id=1261039993]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D69" type="GPUParticles3D" parent="Particles" unique_id=1990102060]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D70" type="GPUParticles3D" parent="Particles" unique_id=986506462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D71" type="GPUParticles3D" parent="Particles" unique_id=938523980]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D72" type="GPUParticles3D" parent="Particles" unique_id=108880402]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D73" type="GPUParticles3D" parent="Particles" unique_id=109395909]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D74" type="GPUParticles3D" parent="Particles" unique_id=25491131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D75" type="GPUParticles3D" parent="Particles" unique_id=211013902]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D76" type="GPUParticles3D" parent="Particles" unique_id=204085124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D77" type="GPUParticles3D" parent="Particles" unique_id=969139970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D78" type="GPUParticles3D" parent="Particles" unique_id=1386721360]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D79" type="GPUParticles3D" parent="Particles" unique_id=354126776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D80" type="GPUParticles3D" parent="Particles" unique_id=957959024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D81" type="GPUParticles3D" parent="Particles" unique_id=527655642]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D82" type="GPUParticles3D" parent="Particles" unique_id=1791030654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D83" type="GPUParticles3D" parent="Particles" unique_id=728505879]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D84" type="GPUParticles3D" parent="Particles" unique_id=314323533]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="Particles2" type="Node3D" parent="." unique_id=577428728]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -311, 0, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Particles2" unique_id=1877612339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="Particles2" unique_id=717211939]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D3" type="GPUParticles3D" parent="Particles2" unique_id=1034599377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D4" type="GPUParticles3D" parent="Particles2" unique_id=1758265748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D5" type="GPUParticles3D" parent="Particles2" unique_id=657103641]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D6" type="GPUParticles3D" parent="Particles2" unique_id=217650291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D7" type="GPUParticles3D" parent="Particles2" unique_id=69019653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D8" type="GPUParticles3D" parent="Particles2" unique_id=1151700658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D9" type="GPUParticles3D" parent="Particles2" unique_id=1593446491]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D10" type="GPUParticles3D" parent="Particles2" unique_id=811212132]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D11" type="GPUParticles3D" parent="Particles2" unique_id=1904518137]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D12" type="GPUParticles3D" parent="Particles2" unique_id=1839308172]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D13" type="GPUParticles3D" parent="Particles2" unique_id=1666054800]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D14" type="GPUParticles3D" parent="Particles2" unique_id=1044750708]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D15" type="GPUParticles3D" parent="Particles2" unique_id=2112499423]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D16" type="GPUParticles3D" parent="Particles2" unique_id=417064074]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D17" type="GPUParticles3D" parent="Particles2" unique_id=2091648193]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D18" type="GPUParticles3D" parent="Particles2" unique_id=851263453]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D19" type="GPUParticles3D" parent="Particles2" unique_id=358189528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D20" type="GPUParticles3D" parent="Particles2" unique_id=37642322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D21" type="GPUParticles3D" parent="Particles2" unique_id=2029906446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D22" type="GPUParticles3D" parent="Particles2" unique_id=909003744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D23" type="GPUParticles3D" parent="Particles2" unique_id=1403851043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D24" type="GPUParticles3D" parent="Particles2" unique_id=942023777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D25" type="GPUParticles3D" parent="Particles2" unique_id=329495941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D26" type="GPUParticles3D" parent="Particles2" unique_id=1756974471]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D27" type="GPUParticles3D" parent="Particles2" unique_id=1456435693]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D28" type="GPUParticles3D" parent="Particles2" unique_id=463815830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D29" type="GPUParticles3D" parent="Particles2" unique_id=704733097]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D30" type="GPUParticles3D" parent="Particles2" unique_id=1519317829]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D31" type="GPUParticles3D" parent="Particles2" unique_id=998447948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D32" type="GPUParticles3D" parent="Particles2" unique_id=1737168820]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D33" type="GPUParticles3D" parent="Particles2" unique_id=30593051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D34" type="GPUParticles3D" parent="Particles2" unique_id=1584953673]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D35" type="GPUParticles3D" parent="Particles2" unique_id=1715108927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D36" type="GPUParticles3D" parent="Particles2" unique_id=1870484243]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D37" type="GPUParticles3D" parent="Particles2" unique_id=1795363079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D38" type="GPUParticles3D" parent="Particles2" unique_id=1696061786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D39" type="GPUParticles3D" parent="Particles2" unique_id=138338842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D40" type="GPUParticles3D" parent="Particles2" unique_id=752974766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D41" type="GPUParticles3D" parent="Particles2" unique_id=940343447]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D42" type="GPUParticles3D" parent="Particles2" unique_id=32875636]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D43" type="GPUParticles3D" parent="Particles2" unique_id=133380208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D44" type="GPUParticles3D" parent="Particles2" unique_id=918238972]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D45" type="GPUParticles3D" parent="Particles2" unique_id=1604043267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D46" type="GPUParticles3D" parent="Particles2" unique_id=1778828871]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D47" type="GPUParticles3D" parent="Particles2" unique_id=576001714]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D48" type="GPUParticles3D" parent="Particles2" unique_id=1239942730]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D49" type="GPUParticles3D" parent="Particles2" unique_id=1133978401]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D50" type="GPUParticles3D" parent="Particles2" unique_id=348857102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D51" type="GPUParticles3D" parent="Particles2" unique_id=599246600]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D52" type="GPUParticles3D" parent="Particles2" unique_id=1222968543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D53" type="GPUParticles3D" parent="Particles2" unique_id=1219903821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D54" type="GPUParticles3D" parent="Particles2" unique_id=908673653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D55" type="GPUParticles3D" parent="Particles2" unique_id=160876545]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D56" type="GPUParticles3D" parent="Particles2" unique_id=877736362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D57" type="GPUParticles3D" parent="Particles2" unique_id=1966479571]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D58" type="GPUParticles3D" parent="Particles2" unique_id=1653791480]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D59" type="GPUParticles3D" parent="Particles2" unique_id=1375416286]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D60" type="GPUParticles3D" parent="Particles2" unique_id=560659616]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D61" type="GPUParticles3D" parent="Particles2" unique_id=2062200508]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D62" type="GPUParticles3D" parent="Particles2" unique_id=169034591]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D63" type="GPUParticles3D" parent="Particles2" unique_id=1368408047]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D64" type="GPUParticles3D" parent="Particles2" unique_id=1748194898]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D65" type="GPUParticles3D" parent="Particles2" unique_id=2114910467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D66" type="GPUParticles3D" parent="Particles2" unique_id=136206303]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D67" type="GPUParticles3D" parent="Particles2" unique_id=511889182]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D68" type="GPUParticles3D" parent="Particles2" unique_id=1128969298]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D69" type="GPUParticles3D" parent="Particles2" unique_id=835514671]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D70" type="GPUParticles3D" parent="Particles2" unique_id=91634101]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D71" type="GPUParticles3D" parent="Particles2" unique_id=2092490267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D72" type="GPUParticles3D" parent="Particles2" unique_id=234801475]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D73" type="GPUParticles3D" parent="Particles2" unique_id=176462742]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D74" type="GPUParticles3D" parent="Particles2" unique_id=1799147651]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D75" type="GPUParticles3D" parent="Particles2" unique_id=1511673051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D76" type="GPUParticles3D" parent="Particles2" unique_id=1205906730]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D77" type="GPUParticles3D" parent="Particles2" unique_id=37987424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D78" type="GPUParticles3D" parent="Particles2" unique_id=1122957018]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D79" type="GPUParticles3D" parent="Particles2" unique_id=1663543929]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D80" type="GPUParticles3D" parent="Particles2" unique_id=1349868168]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D81" type="GPUParticles3D" parent="Particles2" unique_id=189925659]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D82" type="GPUParticles3D" parent="Particles2" unique_id=2121223396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D83" type="GPUParticles3D" parent="Particles2" unique_id=1242006246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D84" type="GPUParticles3D" parent="Particles2" unique_id=1237506139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="Particles3" type="Node3D" parent="." unique_id=744492385]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -311, 0, -236)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Particles3" unique_id=794678473]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="Particles3" unique_id=161553913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D3" type="GPUParticles3D" parent="Particles3" unique_id=446561980]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D4" type="GPUParticles3D" parent="Particles3" unique_id=165632890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D5" type="GPUParticles3D" parent="Particles3" unique_id=833300779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D6" type="GPUParticles3D" parent="Particles3" unique_id=1020897185]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D7" type="GPUParticles3D" parent="Particles3" unique_id=1897666720]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D8" type="GPUParticles3D" parent="Particles3" unique_id=765939403]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D9" type="GPUParticles3D" parent="Particles3" unique_id=294482161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D10" type="GPUParticles3D" parent="Particles3" unique_id=1246458239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D11" type="GPUParticles3D" parent="Particles3" unique_id=80517918]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D12" type="GPUParticles3D" parent="Particles3" unique_id=1987359291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D13" type="GPUParticles3D" parent="Particles3" unique_id=1745384626]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D14" type="GPUParticles3D" parent="Particles3" unique_id=696266232]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D15" type="GPUParticles3D" parent="Particles3" unique_id=20333975]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D16" type="GPUParticles3D" parent="Particles3" unique_id=886610283]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D17" type="GPUParticles3D" parent="Particles3" unique_id=1869998548]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D18" type="GPUParticles3D" parent="Particles3" unique_id=291145056]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D19" type="GPUParticles3D" parent="Particles3" unique_id=1977544236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D20" type="GPUParticles3D" parent="Particles3" unique_id=2061786211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D21" type="GPUParticles3D" parent="Particles3" unique_id=1824138545]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D22" type="GPUParticles3D" parent="Particles3" unique_id=1817839856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D23" type="GPUParticles3D" parent="Particles3" unique_id=315331585]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D24" type="GPUParticles3D" parent="Particles3" unique_id=1736400248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D25" type="GPUParticles3D" parent="Particles3" unique_id=1134531696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D26" type="GPUParticles3D" parent="Particles3" unique_id=1419752292]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D27" type="GPUParticles3D" parent="Particles3" unique_id=1102404341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D28" type="GPUParticles3D" parent="Particles3" unique_id=612871174]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D29" type="GPUParticles3D" parent="Particles3" unique_id=1658251383]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D30" type="GPUParticles3D" parent="Particles3" unique_id=468898636]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D31" type="GPUParticles3D" parent="Particles3" unique_id=712802798]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D32" type="GPUParticles3D" parent="Particles3" unique_id=1587869691]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D33" type="GPUParticles3D" parent="Particles3" unique_id=1450085410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D34" type="GPUParticles3D" parent="Particles3" unique_id=1081287983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D35" type="GPUParticles3D" parent="Particles3" unique_id=369111530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D36" type="GPUParticles3D" parent="Particles3" unique_id=467033250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D37" type="GPUParticles3D" parent="Particles3" unique_id=633921029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D38" type="GPUParticles3D" parent="Particles3" unique_id=1397035834]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D39" type="GPUParticles3D" parent="Particles3" unique_id=1542110546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D40" type="GPUParticles3D" parent="Particles3" unique_id=1232683189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D41" type="GPUParticles3D" parent="Particles3" unique_id=1459956572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D42" type="GPUParticles3D" parent="Particles3" unique_id=1643281487]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D43" type="GPUParticles3D" parent="Particles3" unique_id=1123037255]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D44" type="GPUParticles3D" parent="Particles3" unique_id=1116171459]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D45" type="GPUParticles3D" parent="Particles3" unique_id=958680876]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D46" type="GPUParticles3D" parent="Particles3" unique_id=15185519]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D47" type="GPUParticles3D" parent="Particles3" unique_id=1399664228]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D48" type="GPUParticles3D" parent="Particles3" unique_id=91703557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D49" type="GPUParticles3D" parent="Particles3" unique_id=1021207371]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D50" type="GPUParticles3D" parent="Particles3" unique_id=776862706]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D51" type="GPUParticles3D" parent="Particles3" unique_id=205902833]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D52" type="GPUParticles3D" parent="Particles3" unique_id=1464792010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D53" type="GPUParticles3D" parent="Particles3" unique_id=66966375]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D54" type="GPUParticles3D" parent="Particles3" unique_id=1599934289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D55" type="GPUParticles3D" parent="Particles3" unique_id=995125989]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D56" type="GPUParticles3D" parent="Particles3" unique_id=540710493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D57" type="GPUParticles3D" parent="Particles3" unique_id=1601718381]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D58" type="GPUParticles3D" parent="Particles3" unique_id=1093903411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D59" type="GPUParticles3D" parent="Particles3" unique_id=1499791152]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D60" type="GPUParticles3D" parent="Particles3" unique_id=1322146920]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D61" type="GPUParticles3D" parent="Particles3" unique_id=1847422410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D62" type="GPUParticles3D" parent="Particles3" unique_id=1890575400]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D63" type="GPUParticles3D" parent="Particles3" unique_id=1719266728]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D64" type="GPUParticles3D" parent="Particles3" unique_id=1430727259]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D65" type="GPUParticles3D" parent="Particles3" unique_id=197842591]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D66" type="GPUParticles3D" parent="Particles3" unique_id=2129612037]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D67" type="GPUParticles3D" parent="Particles3" unique_id=549921494]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D68" type="GPUParticles3D" parent="Particles3" unique_id=1301617066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D69" type="GPUParticles3D" parent="Particles3" unique_id=860204584]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D70" type="GPUParticles3D" parent="Particles3" unique_id=1590486082]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D71" type="GPUParticles3D" parent="Particles3" unique_id=1604435613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D72" type="GPUParticles3D" parent="Particles3" unique_id=1773212222]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D73" type="GPUParticles3D" parent="Particles3" unique_id=937515976]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D74" type="GPUParticles3D" parent="Particles3" unique_id=981290329]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D75" type="GPUParticles3D" parent="Particles3" unique_id=547887408]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D76" type="GPUParticles3D" parent="Particles3" unique_id=1908399689]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D77" type="GPUParticles3D" parent="Particles3" unique_id=2116548260]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D78" type="GPUParticles3D" parent="Particles3" unique_id=611831188]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D79" type="GPUParticles3D" parent="Particles3" unique_id=301173129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D80" type="GPUParticles3D" parent="Particles3" unique_id=342706330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D81" type="GPUParticles3D" parent="Particles3" unique_id=561020193]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D82" type="GPUParticles3D" parent="Particles3" unique_id=2079615928]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D83" type="GPUParticles3D" parent="Particles3" unique_id=596545682]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D84" type="GPUParticles3D" parent="Particles3" unique_id=673016956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="Particles4" type="Node3D" parent="." unique_id=1723145218]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -236)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Particles4" unique_id=1240354375]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="Particles4" unique_id=630102881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D3" type="GPUParticles3D" parent="Particles4" unique_id=1660465654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D4" type="GPUParticles3D" parent="Particles4" unique_id=729331072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D5" type="GPUParticles3D" parent="Particles4" unique_id=1816417335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D6" type="GPUParticles3D" parent="Particles4" unique_id=206017470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D7" type="GPUParticles3D" parent="Particles4" unique_id=2046003524]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D8" type="GPUParticles3D" parent="Particles4" unique_id=1187525540]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D9" type="GPUParticles3D" parent="Particles4" unique_id=2115377647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D10" type="GPUParticles3D" parent="Particles4" unique_id=310422603]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D11" type="GPUParticles3D" parent="Particles4" unique_id=839160627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D12" type="GPUParticles3D" parent="Particles4" unique_id=658460204]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D13" type="GPUParticles3D" parent="Particles4" unique_id=295855285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D14" type="GPUParticles3D" parent="Particles4" unique_id=1668844562]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.660976, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D15" type="GPUParticles3D" parent="Particles4" unique_id=1924835540]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D16" type="GPUParticles3D" parent="Particles4" unique_id=1256001410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D17" type="GPUParticles3D" parent="Particles4" unique_id=69869957]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D18" type="GPUParticles3D" parent="Particles4" unique_id=460114708]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D19" type="GPUParticles3D" parent="Particles4" unique_id=747960735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D20" type="GPUParticles3D" parent="Particles4" unique_id=1276525124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D21" type="GPUParticles3D" parent="Particles4" unique_id=1365897267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.455776, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D22" type="GPUParticles3D" parent="Particles4" unique_id=1952012888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D23" type="GPUParticles3D" parent="Particles4" unique_id=1159378546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D24" type="GPUParticles3D" parent="Particles4" unique_id=2093123207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D25" type="GPUParticles3D" parent="Particles4" unique_id=2139165963]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D26" type="GPUParticles3D" parent="Particles4" unique_id=2016248653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D27" type="GPUParticles3D" parent="Particles4" unique_id=1790413727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D28" type="GPUParticles3D" parent="Particles4" unique_id=649512544]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.59262, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D29" type="GPUParticles3D" parent="Particles4" unique_id=349357069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D30" type="GPUParticles3D" parent="Particles4" unique_id=2031338859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D31" type="GPUParticles3D" parent="Particles4" unique_id=282787387]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D32" type="GPUParticles3D" parent="Particles4" unique_id=1244904296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D33" type="GPUParticles3D" parent="Particles4" unique_id=2054455921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D34" type="GPUParticles3D" parent="Particles4" unique_id=290114420]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D35" type="GPUParticles3D" parent="Particles4" unique_id=269704554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.209564, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D36" type="GPUParticles3D" parent="Particles4" unique_id=442634067]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D37" type="GPUParticles3D" parent="Particles4" unique_id=1992390797]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D38" type="GPUParticles3D" parent="Particles4" unique_id=1518100207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D39" type="GPUParticles3D" parent="Particles4" unique_id=1243400349]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D40" type="GPUParticles3D" parent="Particles4" unique_id=671229777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D41" type="GPUParticles3D" parent="Particles4" unique_id=2073575503]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D42" type="GPUParticles3D" parent="Particles4" unique_id=1492619255]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.86624, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D43" type="GPUParticles3D" parent="Particles4" unique_id=1320341977]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D44" type="GPUParticles3D" parent="Particles4" unique_id=1122172250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D45" type="GPUParticles3D" parent="Particles4" unique_id=1776575556]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D46" type="GPUParticles3D" parent="Particles4" unique_id=1334150655]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D47" type="GPUParticles3D" parent="Particles4" unique_id=1446226051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D48" type="GPUParticles3D" parent="Particles4" unique_id=1270373461]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D49" type="GPUParticles3D" parent="Particles4" unique_id=1885979528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D50" type="GPUParticles3D" parent="Particles4" unique_id=933598211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D51" type="GPUParticles3D" parent="Particles4" unique_id=369694958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D52" type="GPUParticles3D" parent="Particles4" unique_id=1157804144]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D53" type="GPUParticles3D" parent="Particles4" unique_id=369346790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D54" type="GPUParticles3D" parent="Particles4" unique_id=598130585]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D55" type="GPUParticles3D" parent="Particles4" unique_id=1615104659]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D56" type="GPUParticles3D" parent="Particles4" unique_id=1340331407]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.33902, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D57" type="GPUParticles3D" parent="Particles4" unique_id=450727211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D58" type="GPUParticles3D" parent="Particles4" unique_id=1923129244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D59" type="GPUParticles3D" parent="Particles4" unique_id=73933090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D60" type="GPUParticles3D" parent="Particles4" unique_id=1996308993]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D61" type="GPUParticles3D" parent="Particles4" unique_id=81703808]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D62" type="GPUParticles3D" parent="Particles4" unique_id=1895009834]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D63" type="GPUParticles3D" parent="Particles4" unique_id=1253718788]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.54422, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D64" type="GPUParticles3D" parent="Particles4" unique_id=168712946]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D65" type="GPUParticles3D" parent="Particles4" unique_id=1618182821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D66" type="GPUParticles3D" parent="Particles4" unique_id=553499547]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D67" type="GPUParticles3D" parent="Particles4" unique_id=205544662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D68" type="GPUParticles3D" parent="Particles4" unique_id=38396660]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D69" type="GPUParticles3D" parent="Particles4" unique_id=827000690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D70" type="GPUParticles3D" parent="Particles4" unique_id=859023065]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.40738, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D71" type="GPUParticles3D" parent="Particles4" unique_id=280031975]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D72" type="GPUParticles3D" parent="Particles4" unique_id=1507514279]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D73" type="GPUParticles3D" parent="Particles4" unique_id=1751975749]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D74" type="GPUParticles3D" parent="Particles4" unique_id=1173023366]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D75" type="GPUParticles3D" parent="Particles4" unique_id=538274665]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D76" type="GPUParticles3D" parent="Particles4" unique_id=697086916]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D77" type="GPUParticles3D" parent="Particles4" unique_id=659317823]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.790436, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D78" type="GPUParticles3D" parent="Particles4" unique_id=573557343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 0)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D79" type="GPUParticles3D" parent="Particles4" unique_id=590995832]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 30.063362)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D80" type="GPUParticles3D" parent="Particles4" unique_id=1625632374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 68.19519)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D81" type="GPUParticles3D" parent="Particles4" unique_id=158418051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 101.959496)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D82" type="GPUParticles3D" parent="Particles4" unique_id=1162535938]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 132.02823)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D83" type="GPUParticles3D" parent="Particles4" unique_id=1678189327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 170.83199)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")
+
+[node name="GPUParticles3D84" type="GPUParticles3D" parent="Particles4" unique_id=1737261600]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.133759, 10.174607, 206.94804)
+material_override = SubResource("StandardMaterial3D_rxpf2")
+amount = 1000
+lifetime = 15.0
+preprocess = 5.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_rxpf2")
+draw_pass_1 = SubResource("QuadMesh_rxpf2")

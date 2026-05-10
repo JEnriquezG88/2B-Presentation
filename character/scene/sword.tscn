@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://d0diajm06gioy"]
+
+[ext_resource type="PackedScene" uid="uid://npgtti05exoa" path="res://import/Sword.glb" id="1_o4hxs"]
+[ext_resource type="Script" uid="uid://w03ijv5e1tt4" path="res://character/code/follow_animation_tree.gd" id="2_e5saq"]
+[ext_resource type="Script" uid="uid://cpcp1sdsxxbjq" path="res://character/code/follow_obj.gd" id="2_yme1e"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yme1e"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3ykrd"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_e5saq"]
+filter_enabled = true
+filters = ["Sword/Skeleton3D:Root"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_gwong"]
+graph_offset = Vector2(-186, 0)
+nodes/output/position = Vector2(420, 100)
+nodes/Idle/node = SubResource("AnimationNodeAnimation_yme1e")
+nodes/Idle/position = Vector2(-20, 100)
+nodes/Walk/node = SubResource("AnimationNodeAnimation_3ykrd")
+nodes/Walk/position = Vector2(-20, 280)
+nodes/WalkBlend/node = SubResource("AnimationNodeBlend2_e5saq")
+nodes/WalkBlend/position = Vector2(180, 140)
+node_connections = [&"output", 0, &"WalkBlend", &"WalkBlend", 0, &"Idle", &"WalkBlend", 1, &"Walk"]
+
+[node name="Sword2" unique_id=754168644 instance=ExtResource("1_o4hxs")]
+script = ExtResource("2_yme1e")
+
+[node name="Skeleton3D" parent="Sword" parent_id_path=PackedInt32Array(1754106284) index="0" unique_id=1741012426]
+bones/0/rotation = Quaternion(0.7044161, -0.06162842, -0.704416, -0.061628412)
+bones/1/position = Vector3(5.400869e-16, -1.0253128, -2.775555e-17)
+bones/1/rotation = Quaternion(0.7071068, -4.9065403e-17, -0.7071068, -4.9065396e-17)
+bones/2/rotation = Quaternion(-1.12418165e-10, -0.29456612, -4.548855e-10, 0.9556312)
+bones/3/rotation = Quaternion(-1.12418165e-10, 0.29456612, -6.0806266e-10, 0.9556312)
+bones/4/rotation = Quaternion(-3.4540886e-09, -0.66544616, -2.0639446e-09, 0.7464459)
+
+[node name="Sword_2" parent="Sword/Skeleton3D" index="0" unique_id=864932963]
+transform = Transform3D(0.9848077, 0.17364816, -1.1920928e-07, -0.17364816, 0.98480767, 2.980232e-08, 1.1920928e-07, 1.3877788e-16, 0.99999994, 0.1780437, 1.009736, -5.4008684e-16)
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2" unique_id=362441699]
+tree_root = SubResource("AnimationNodeBlendTree_gwong")
+anim_player = NodePath("../AnimationPlayer")
+parameters/WalkBlend/blend_amount = 0.0
+script = ExtResource("2_e5saq")

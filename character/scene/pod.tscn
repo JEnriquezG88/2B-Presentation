@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bkemqede5r1ik"]
+
+[ext_resource type="PackedScene" uid="uid://bo8kp6324apim" path="res://import/Pod.glb" id="1_r6mhg"]
+[ext_resource type="Script" uid="uid://cpcp1sdsxxbjq" path="res://character/code/follow_obj.gd" id="2_tycb6"]
+[ext_resource type="Script" uid="uid://w03ijv5e1tt4" path="res://character/code/follow_animation_tree.gd" id="3_7gy1s"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tycb6"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7gy1s"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_r6mhg"]
+filter_enabled = true
+filters = ["PodArmature/Skeleton3D:Bone"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_g56hj"]
+graph_offset = Vector2(-304.5, -11.299988)
+nodes/Idle/node = SubResource("AnimationNodeAnimation_tycb6")
+nodes/Idle/position = Vector2(-80, 80)
+nodes/WalkBlend/node = SubResource("AnimationNodeBlend2_r6mhg")
+nodes/WalkBlend/position = Vector2(117.72727, 112.45455)
+nodes/Walk/node = SubResource("AnimationNodeAnimation_7gy1s")
+nodes/Walk/position = Vector2(-60, 260)
+node_connections = [&"output", 0, &"WalkBlend", &"WalkBlend", 0, &"Idle", &"WalkBlend", 1, &"Walk"]
+
+[node name="Pod2" unique_id=237857185 instance=ExtResource("1_r6mhg")]
+script = ExtResource("2_tycb6")
+
+[node name="Skeleton3D" parent="PodArmature" parent_id_path=PackedInt32Array(119823217) index="0" unique_id=1060200809]
+bones/1/position = Vector3(0, 2.2165525, 0)
+bones/2/rotation = Quaternion(0.0014437999, 0.044773806, 0.9989962, 6.4709275e-05)
+bones/3/rotation = Quaternion(0.6235458, -9.009089e-08, -0.00180244, 0.7817847)
+bones/4/rotation = Quaternion(-0.0014444836, 0.032549933, 0.9994691, -4.7042726e-05)
+bones/5/rotation = Quaternion(0.65950495, 8.615462e-08, 0.0019063842, 0.7516979)
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2" unique_id=1090637726]
+tree_root = SubResource("AnimationNodeBlendTree_g56hj")
+anim_player = NodePath("../AnimationPlayer")
+parameters/WalkBlend/blend_amount = 0.0
+script = ExtResource("3_7gy1s")

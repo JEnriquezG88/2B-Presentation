@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bpri2i1udvvwd"]
+
+[ext_resource type="Texture2D" uid="uid://dd7mxgjxivw2u" path="res://import/Sword_Magic.png" id="1_f8d40"]
+
+[resource]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("1_f8d40")
+emission_enabled = true
+emission = Color(0.9245097, 0.8825917, 0.68306273, 1)
+emission_energy_multiplier = 5.0
+texture_filter = 0
